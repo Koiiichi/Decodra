@@ -1,49 +1,2010 @@
 {
-  "quick": true,
-  "samples_per_schema": 3,
+  "quick": false,
+  "samples_per_schema": 10,
+  "passes": 3,
+  "warmup_samples_per_schema": 1,
+  "seed": 1337,
+  "timing_boundaries": {
+    "runtime_ms": "Generation/decode runtime reported by DecodraEngine only. JSON parsing, regex extraction, and schema validation are timed separately.",
+    "parse_validation_ms": "json.loads/regex extraction/Pydantic validation for unconstrained; Pydantic validation for constrained benchmark output."
+  },
+  "decoding_config": {
+    "batch_size": 1,
+    "do_sample": false,
+    "temperature": null,
+    "max_new_tokens_override": null,
+    "constrained_stopping": "schema_complete_or_token_budget",
+    "unconstrained_stopping": "eos_or_token_budget"
+  },
   "models": {
     "gpt2": [
       {
         "schema": "PersonSchema",
-        "samples": 3,
-        "first_pass_valid_rate_constrained": 1.0,
-        "first_pass_valid_rate_unconstrained": 0.0,
-        "mean_confidence_scores": {
-          "name": 0.5506971634630097,
-          "age": 0.32683784555139095,
-          "email": 0.5471413215831319
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 239.0968806731204,
+          "runtime_ms_min": 224.02116702869534,
+          "runtime_ms_max": 275.29983362182975,
+          "parse_validation_ms_mean": 0.004536084209879239,
+          "parse_validation_ms_min": 0.0037499703466892242,
+          "parse_validation_ms_max": 0.00800006091594696,
+          "generated_tokens_mean": 23.5,
+          "generated_tokens_min": 23,
+          "generated_tokens_max": 24,
+          "milliseconds_per_token": 10.174335347792358,
+          "tokens_per_second": 98.28651856034816,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.5031806804703279,
+            "age": 0.3025789502586427,
+            "email": 0.5613479176220278
+          }
         },
-        "constrained_time_ms": 465.6687914393842,
-        "unconstrained_time_ms": 1124.059916473925,
-        "overhead_pct": -58.57260056918092
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 834.190641483292,
+          "runtime_ms_min": 807.1521669626236,
+          "runtime_ms_max": 1005.1721669733524,
+          "parse_validation_ms_mean": 0.0278917762140433,
+          "parse_validation_ms_min": 0.021958723664283752,
+          "parse_validation_ms_max": 0.1005842350423336,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 8.689485848784292,
+          "tokens_per_second": 115.08160751995536,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -72.5,
+        "runtime_delta_ms": -595.0937608101716,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
       },
       {
         "schema": "ProductSchema",
-        "samples": 3,
-        "first_pass_valid_rate_constrained": 1.0,
-        "first_pass_valid_rate_unconstrained": 0.0,
-        "mean_confidence_scores": {
-          "name": 0.48004704162075607,
-          "price": 0.2852867749313383,
-          "in_stock": 0.055118522297027205
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 185.5047332433363,
+          "runtime_ms_min": 170.7493751309812,
+          "runtime_ms_max": 250.54099969565868,
+          "parse_validation_ms_mean": 0.004652608186006546,
+          "parse_validation_ms_min": 0.004166737198829651,
+          "parse_validation_ms_max": 0.006207730621099472,
+          "generated_tokens_mean": 20.066666666666666,
+          "generated_tokens_min": 19,
+          "generated_tokens_max": 21,
+          "milliseconds_per_token": 9.244421922425397,
+          "tokens_per_second": 108.17334046320083,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.47940461831314285,
+            "price": 0.242947298896248,
+            "in_stock": 0.06819814896009337
+          }
         },
-        "constrained_time_ms": 234.98738867541155,
-        "unconstrained_time_ms": 1027.5181249404948,
-        "overhead_pct": -77.13058456374966
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 842.7232277734826,
+          "runtime_ms_min": 807.7865410596132,
+          "runtime_ms_max": 932.4911250732839,
+          "parse_validation_ms_mean": 0.026083334038654964,
+          "parse_validation_ms_min": 0.022042077034711838,
+          "parse_validation_ms_max": 0.06800005212426186,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 8.778366955973777,
+          "tokens_per_second": 113.91640438538387,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -75.93333333333334,
+        "runtime_delta_ms": -657.2184945301462,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
       },
       {
         "schema": "LocationSchema",
-        "samples": 3,
-        "first_pass_valid_rate_constrained": 1.0,
-        "first_pass_valid_rate_unconstrained": 0.0,
-        "mean_confidence_scores": {
-          "city": 0.47551585882519143,
-          "country": 0.6681407821288489,
-          "timezone": 0.5811834624623964
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 218.85965839028358,
+          "runtime_ms_min": 210.20183386281133,
+          "runtime_ms_max": 258.25299974530935,
+          "parse_validation_ms_mean": 0.0045916686455408735,
+          "parse_validation_ms_min": 0.003915745764970779,
+          "parse_validation_ms_max": 0.00837491825222969,
+          "generated_tokens_mean": 22.133333333333333,
+          "generated_tokens_min": 22,
+          "generated_tokens_max": 24,
+          "milliseconds_per_token": 9.888237577874259,
+          "tokens_per_second": 101.13025623874388,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "city": 0.4924522300348937,
+            "country": 0.718700811792145,
+            "timezone": 0.3761644633611028
+          }
         },
-        "constrained_time_ms": 266.5845835581422,
-        "unconstrained_time_ms": 1092.3683053503435,
-        "overhead_pct": -75.59572332404468
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 851.1021361065408,
+          "runtime_ms_min": 807.2414170019329,
+          "runtime_ms_max": 988.6488751508296,
+          "parse_validation_ms_mean": 0.025544439752896626,
+          "parse_validation_ms_min": 0.022500287741422653,
+          "parse_validation_ms_max": 0.05766702815890312,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 8.8656472511098,
+          "tokens_per_second": 112.79492310894956,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -73.86666666666667,
+        "runtime_delta_ms": -632.2424777162572,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "CompanySchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 132,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 472.77024295181036,
+          "runtime_ms_min": 430.2985407412052,
+          "runtime_ms_max": 604.6265419572592,
+          "parse_validation_ms_mean": 0.0064291370411713915,
+          "parse_validation_ms_min": 0.004875008016824722,
+          "parse_validation_ms_max": 0.015000347048044205,
+          "generated_tokens_mean": 47.0,
+          "generated_tokens_min": 47,
+          "generated_tokens_max": 47,
+          "milliseconds_per_token": 10.05894133940022,
+          "tokens_per_second": 99.41404033077168,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.5131212705506073,
+            "founded": 0.33157321699651243,
+            "address": 0.0020203710362768877,
+            "address.street": 0.4009891755361576,
+            "address.city": 0.8218140360852905,
+            "address.country": 0.41199525249323216,
+            "employee_count": 0.1473101229757313
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1190.9219945470493,
+          "runtime_ms_min": 1125.1588752493262,
+          "runtime_ms_max": 1458.795374725014,
+          "parse_validation_ms_mean": 0.028376467525959015,
+          "parse_validation_ms_min": 0.020124949514865875,
+          "parse_validation_ms_max": 0.06558280438184738,
+          "generated_tokens_mean": 132.0,
+          "generated_tokens_min": 132,
+          "generated_tokens_max": 132,
+          "milliseconds_per_token": 9.022136322326132,
+          "tokens_per_second": 110.83849370856936,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -85.0,
+        "runtime_delta_ms": -718.1517515952389,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "EventSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 128,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 656.3039750015984,
+          "runtime_ms_min": 519.0416667610407,
+          "runtime_ms_max": 798.0525000020862,
+          "parse_validation_ms_mean": 0.005899990598360698,
+          "parse_validation_ms_min": 0.004542060196399689,
+          "parse_validation_ms_max": 0.02154102548956871,
+          "generated_tokens_mean": 62.56666666666667,
+          "generated_tokens_min": 53,
+          "generated_tokens_max": 68,
+          "milliseconds_per_token": 10.489674613770884,
+          "tokens_per_second": 95.33184172244925,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "title": 0.21721634305837406,
+            "date": 0.6541198128202137,
+            "venue": 0.018835716459123582,
+            "venue.name": 0.6655228613942414,
+            "venue.city": 0.4475855500329815,
+            "capacity": 0.08510106890518407
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1120.763524994254,
+          "runtime_ms_min": 1078.616791870445,
+          "runtime_ms_max": 1294.0041669644415,
+          "parse_validation_ms_mean": 0.03126527493198713,
+          "parse_validation_ms_min": 0.021832995116710663,
+          "parse_validation_ms_max": 0.14079129323363304,
+          "generated_tokens_mean": 128.0,
+          "generated_tokens_min": 128,
+          "generated_tokens_max": 128,
+          "milliseconds_per_token": 8.75596503901761,
+          "tokens_per_second": 114.20785664902525,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -65.43333333333334,
+        "runtime_delta_ms": -464.45954999265575,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "ArticleSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 148,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 588.8407554167012,
+          "runtime_ms_min": 558.9665416628122,
+          "runtime_ms_max": 674.7853332199156,
+          "parse_validation_ms_mean": 0.005736202001571655,
+          "parse_validation_ms_min": 0.00437488779425621,
+          "parse_validation_ms_max": 0.010792165994644165,
+          "generated_tokens_mean": 58.0,
+          "generated_tokens_min": 58,
+          "generated_tokens_max": 58,
+          "milliseconds_per_token": 10.152426817529332,
+          "tokens_per_second": 98.49861692904648,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "title": 0.4051508826548902,
+            "author": 0.015964073194064357,
+            "author.name": 0.46662795527973233,
+            "author.affiliation": 0.35010142068321903,
+            "published": 0.5810887761248141,
+            "word_count": 0.10419746379509451
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1320.9374070167542,
+          "runtime_ms_min": 1253.6997091956437,
+          "runtime_ms_max": 1496.1915840394795,
+          "parse_validation_ms_mean": 0.026155573626359303,
+          "parse_validation_ms_min": 0.020874664187431335,
+          "parse_validation_ms_max": 0.046875327825546265,
+          "generated_tokens_mean": 148.0,
+          "generated_tokens_min": 148,
+          "generated_tokens_max": 148,
+          "milliseconds_per_token": 8.925252750113204,
+          "tokens_per_second": 112.04164498168598,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -90.0,
+        "runtime_delta_ms": -732.096651600053,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "MetricsSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 116,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 269.65525272923213,
+          "runtime_ms_min": 239.59887539967895,
+          "runtime_ms_max": 373.6536246724427,
+          "parse_validation_ms_mean": 0.03363066352903843,
+          "parse_validation_ms_min": 0.0036670826375484467,
+          "parse_validation_ms_max": 0.8752918802201748,
+          "generated_tokens_mean": 28.8,
+          "generated_tokens_min": 28,
+          "generated_tokens_max": 36,
+          "milliseconds_per_token": 9.363029608653893,
+          "tokens_per_second": 106.80303724296012,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "accuracy": 0.28370516821125247,
+            "precision": 0.3906561184782168,
+            "recall": 0.5214476755863142,
+            "f1": 0.25148547967403284
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1056.8863056910534,
+          "runtime_ms_min": 982.8752502799034,
+          "runtime_ms_max": 1163.0736249499023,
+          "parse_validation_ms_mean": 0.030905520543456078,
+          "parse_validation_ms_min": 0.023958273231983185,
+          "parse_validation_ms_max": 0.06804056465625763,
+          "generated_tokens_mean": 116.0,
+          "generated_tokens_min": 116,
+          "generated_tokens_max": 116,
+          "milliseconds_per_token": 9.111088842164254,
+          "tokens_per_second": 109.7563658222939,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -87.2,
+        "runtime_delta_ms": -787.2310529618212,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "RepositorySchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 424.7405680362135,
+          "runtime_ms_min": 398.2220417819917,
+          "runtime_ms_max": 479.1216659359634,
+          "parse_validation_ms_mean": 0.0053540803492069244,
+          "parse_validation_ms_min": 0.004375353455543518,
+          "parse_validation_ms_max": 0.007916241884231567,
+          "generated_tokens_mean": 44.03333333333333,
+          "generated_tokens_min": 44,
+          "generated_tokens_max": 45,
+          "milliseconds_per_token": 9.645887237764123,
+          "tokens_per_second": 103.67112691147278,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.5368597584915197,
+            "stars": 0.2202246456946544,
+            "language": 0.33969686443790303,
+            "license": 0.35411793130407027,
+            "is_public": 0.09133719038323221
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 858.090972279509,
+          "runtime_ms_min": 811.4546667784452,
+          "runtime_ms_max": 921.123499982059,
+          "parse_validation_ms_mean": 0.029616570100188255,
+          "parse_validation_ms_min": 0.021249987185001373,
+          "parse_validation_ms_max": 0.12812484055757523,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 8.938447627911552,
+          "tokens_per_second": 111.87624983977757,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -51.96666666666667,
+        "runtime_delta_ms": -433.35040424329543,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "InvoiceSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 124,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 339.88955128006637,
+          "runtime_ms_min": 308.8246248662472,
+          "runtime_ms_max": 464.39579175785184,
+          "parse_validation_ms_mean": 0.006861068929235141,
+          "parse_validation_ms_min": 0.004209112375974655,
+          "parse_validation_ms_max": 0.04329066723585129,
+          "generated_tokens_mean": 34.96666666666667,
+          "generated_tokens_min": 34,
+          "generated_tokens_max": 35,
+          "milliseconds_per_token": 9.7203875485243,
+          "tokens_per_second": 102.87655661957788,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "invoice_id": 0.2749452630915756,
+            "amount": 0.27068189384287106,
+            "currency": 0.5495584984452729,
+            "paid": 0.24400750220337214,
+            "items_count": 0.09708356904753436
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1126.9025695354987,
+          "runtime_ms_min": 1055.4279158823192,
+          "runtime_ms_max": 1287.5096667557955,
+          "parse_validation_ms_mean": 0.034780443335572876,
+          "parse_validation_ms_min": 0.021875370293855667,
+          "parse_validation_ms_max": 0.23466581478714943,
+          "generated_tokens_mean": 124.0,
+          "generated_tokens_min": 124,
+          "generated_tokens_max": 124,
+          "milliseconds_per_token": 9.087923947866924,
+          "tokens_per_second": 110.03613209535223,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -89.03333333333333,
+        "runtime_delta_ms": -787.0130182554324,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "ResearchPaperSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 164,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 422.9110443498939,
+          "runtime_ms_min": 403.17766601219773,
+          "runtime_ms_max": 486.2804999575019,
+          "parse_validation_ms_mean": 0.006244471296668053,
+          "parse_validation_ms_min": 0.005042180418968201,
+          "parse_validation_ms_max": 0.013958662748336792,
+          "generated_tokens_mean": 44.0,
+          "generated_tokens_min": 44,
+          "generated_tokens_max": 44,
+          "milliseconds_per_token": 9.611614644315772,
+          "tokens_per_second": 104.04079200068551,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "title": 0.4437007817676527,
+            "authors": 0.1269479734570158,
+            "year": 0.3533830245423782,
+            "venue": 0.33796699312903977,
+            "citation_count": 0.3513945032407501,
+            "open_access": 0.16325430053979031
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1460.9540276695043,
+          "runtime_ms_min": 1390.8080831170082,
+          "runtime_ms_max": 1634.7237499430776,
+          "parse_validation_ms_mean": 0.02724318765103817,
+          "parse_validation_ms_min": 0.023082830011844635,
+          "parse_validation_ms_max": 0.05308305844664574,
+          "generated_tokens_mean": 164.0,
+          "generated_tokens_min": 164,
+          "generated_tokens_max": 164,
+          "milliseconds_per_token": 8.908256266277466,
+          "tokens_per_second": 112.25541454005283,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -120.0,
+        "runtime_delta_ms": -1038.0429833196104,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "JobPostingSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 188,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 807.0528235286474,
+          "runtime_ms_min": 726.3365001417696,
+          "runtime_ms_max": 1007.684915792197,
+          "parse_validation_ms_mean": 0.0059639569371938705,
+          "parse_validation_ms_min": 0.004459172487258911,
+          "parse_validation_ms_max": 0.018292106688022614,
+          "generated_tokens_mean": 78.96666666666667,
+          "generated_tokens_min": 78,
+          "generated_tokens_max": 79,
+          "milliseconds_per_token": 10.220170834047877,
+          "tokens_per_second": 97.84572256547423,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "title": 0.4310131210773591,
+            "company": 0.27922654979231565,
+            "location": 0.5134544679839439,
+            "salary_min": 0.2672472453076858,
+            "salary_max": 0.5600466968307874,
+            "remote": 0.25512961590166516,
+            "experience_years": 0.0932699192186856
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1776.7633417000372,
+          "runtime_ms_min": 1604.7601671889424,
+          "runtime_ms_max": 2448.223083280027,
+          "parse_validation_ms_mean": 0.03469173486034075,
+          "parse_validation_ms_min": 0.022833235561847687,
+          "parse_validation_ms_max": 0.1332079991698265,
+          "generated_tokens_mean": 188.0,
+          "generated_tokens_min": 188,
+          "generated_tokens_max": 188,
+          "milliseconds_per_token": 9.450868838829985,
+          "tokens_per_second": 105.81037754871643,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -109.03333333333333,
+        "runtime_delta_ms": -969.7105181713898,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "MedicalRecordSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 136,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 492.9969111457467,
+          "runtime_ms_min": 419.3407502025366,
+          "runtime_ms_max": 677.5536248460412,
+          "parse_validation_ms_mean": 0.009415407354633013,
+          "parse_validation_ms_min": 0.004542060196399689,
+          "parse_validation_ms_max": 0.09545916691422462,
+          "generated_tokens_mean": 47.166666666666664,
+          "generated_tokens_min": 47,
+          "generated_tokens_max": 52,
+          "milliseconds_per_token": 10.452231331711944,
+          "tokens_per_second": 95.67335129351872,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "patient_id": 0.3020851760676449,
+            "age": 0.30356730683363187,
+            "diagnosis": 0.14495941013692012,
+            "severity": 0.3630119463392141,
+            "follow_up_required": 0.021765240208137162
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1240.9276625296723,
+          "runtime_ms_min": 1155.8425421826541,
+          "runtime_ms_max": 1614.9617917835712,
+          "parse_validation_ms_mean": 0.028693148245414097,
+          "parse_validation_ms_min": 0.024791806936264038,
+          "parse_validation_ms_max": 0.05095917731523514,
+          "generated_tokens_mean": 136.0,
+          "generated_tokens_min": 136,
+          "generated_tokens_max": 136,
+          "milliseconds_per_token": 9.124468106835826,
+          "tokens_per_second": 109.59542937640659,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -88.83333333333334,
+        "runtime_delta_ms": -747.9307513839256,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      }
+    ],
+    "distilgpt2": [
+      {
+        "schema": "PersonSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 145.8418125131478,
+          "runtime_ms_min": 138.83541710674763,
+          "runtime_ms_max": 186.94112496450543,
+          "parse_validation_ms_mean": 0.004730482275287311,
+          "parse_validation_ms_min": 0.00362517312169075,
+          "parse_validation_ms_max": 0.008083879947662354,
+          "generated_tokens_mean": 22.0,
+          "generated_tokens_min": 22,
+          "generated_tokens_max": 22,
+          "milliseconds_per_token": 6.629173296052173,
+          "tokens_per_second": 150.84837208819434,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.43176858604724955,
+            "age": 0.21456212074460074,
+            "email": 0.6239948301350473
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 543.2631332892925,
+          "runtime_ms_min": 509.6295000985265,
+          "runtime_ms_max": 670.393374748528,
+          "parse_validation_ms_mean": 0.02347792809208234,
+          "parse_validation_ms_min": 0.01912517473101616,
+          "parse_validation_ms_max": 0.08620880544185638,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 5.658990971763463,
+          "tokens_per_second": 176.7099479376583,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -74.0,
+        "runtime_delta_ms": -397.4213207761446,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "ProductSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 120.11416795042653,
+          "runtime_ms_min": 111.13795777782798,
+          "runtime_ms_max": 150.24812519550323,
+          "parse_validation_ms_mean": 0.004883405442039172,
+          "parse_validation_ms_min": 0.0040833838284015656,
+          "parse_validation_ms_max": 0.011040829122066498,
+          "generated_tokens_mean": 19.133333333333333,
+          "generated_tokens_min": 19,
+          "generated_tokens_max": 20,
+          "milliseconds_per_token": 6.277743969534488,
+          "tokens_per_second": 159.2928932516107,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.38691088141706925,
+            "price": 0.17359722829809499,
+            "in_stock": 0.10104874723078977
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 544.2612152857085,
+          "runtime_ms_min": 506.5130409784615,
+          "runtime_ms_max": 640.1455421000719,
+          "parse_validation_ms_mean": 0.02079862169921398,
+          "parse_validation_ms_min": 0.01800013706088066,
+          "parse_validation_ms_max": 0.02908380702137947,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 5.669387659226131,
+          "tokens_per_second": 176.38589211175932,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -76.86666666666667,
+        "runtime_delta_ms": -424.147047335282,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "LocationSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 195.74419300382337,
+          "runtime_ms_min": 161.95224970579147,
+          "runtime_ms_max": 239.53829193487763,
+          "parse_validation_ms_mean": 0.004773649076620738,
+          "parse_validation_ms_min": 0.0036670826375484467,
+          "parse_validation_ms_max": 0.010291114449501038,
+          "generated_tokens_mean": 27.166666666666668,
+          "generated_tokens_min": 25,
+          "generated_tokens_max": 28,
+          "milliseconds_per_token": 7.205307717932148,
+          "tokens_per_second": 138.78657777672126,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "city": 0.19834724502830764,
+            "country": 0.709524905949074,
+            "timezone": 0.4844236421375843
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 538.7122027886411,
+          "runtime_ms_min": 505.25291729718447,
+          "runtime_ms_max": 625.4690838977695,
+          "parse_validation_ms_mean": 0.021002783129612606,
+          "parse_validation_ms_min": 0.01712469384074211,
+          "parse_validation_ms_max": 0.03425031900405884,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 5.611585445715011,
+          "tokens_per_second": 178.20275743348017,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -68.83333333333333,
+        "runtime_delta_ms": -342.9680097848177,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "CompanySchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 132,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 288.2917013640205,
+          "runtime_ms_min": 278.0646253377199,
+          "runtime_ms_max": 335.6956662610173,
+          "parse_validation_ms_mean": 0.005876366049051285,
+          "parse_validation_ms_min": 0.004708301275968552,
+          "parse_validation_ms_max": 0.012207776308059692,
+          "generated_tokens_mean": 47.13333333333333,
+          "generated_tokens_min": 47,
+          "generated_tokens_max": 48,
+          "milliseconds_per_token": 6.116514173211185,
+          "tokens_per_second": 163.4918144030062,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.4334190455186818,
+            "founded": 0.12238928760617275,
+            "address": 0.0034131541711012463,
+            "address.street": 0.20313671082370957,
+            "address.city": 0.5649523297221885,
+            "address.country": 0.3613077185168465,
+            "employee_count": 0.15323818294001762
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 736.1232847130547,
+          "runtime_ms_min": 696.1253331974149,
+          "runtime_ms_max": 1061.4666668698192,
+          "parse_validation_ms_mean": 0.041473625848690666,
+          "parse_validation_ms_min": 0.018207821995019913,
+          "parse_validation_ms_max": 0.6386656314134598,
+          "generated_tokens_mean": 132.0,
+          "generated_tokens_min": 132,
+          "generated_tokens_max": 132,
+          "milliseconds_per_token": 5.5766915508564745,
+          "tokens_per_second": 179.31778920898338,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -84.86666666666667,
+        "runtime_delta_ms": -447.83158334903413,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "EventSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 128,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 383.2748180720955,
+          "runtime_ms_min": 363.39316610246897,
+          "runtime_ms_max": 480.61312502250075,
+          "parse_validation_ms_mean": 0.005793136854966481,
+          "parse_validation_ms_min": 0.00420818105340004,
+          "parse_validation_ms_max": 0.012584030628204346,
+          "generated_tokens_mean": 56.0,
+          "generated_tokens_min": 56,
+          "generated_tokens_max": 56,
+          "milliseconds_per_token": 6.8441931798588485,
+          "tokens_per_second": 146.10925988220333,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "title": 0.3262325885899489,
+            "date": 0.4347021504266143,
+            "venue": 0.00537408177186111,
+            "venue.name": 0.789410671082092,
+            "venue.city": 0.3396986315044591,
+            "capacity": 0.14032888195534873
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 718.3381068830689,
+          "runtime_ms_min": 676.4787919819355,
+          "runtime_ms_max": 842.2284577973187,
+          "parse_validation_ms_mean": 0.030461108932892483,
+          "parse_validation_ms_min": 0.01929188147187233,
+          "parse_validation_ms_max": 0.25916704908013344,
+          "generated_tokens_mean": 128.0,
+          "generated_tokens_min": 128,
+          "generated_tokens_max": 128,
+          "milliseconds_per_token": 5.612016460023976,
+          "tokens_per_second": 178.1890710982925,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -72.0,
+        "runtime_delta_ms": -335.0632888109734,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "ArticleSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 148,
+        "constrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1433.2438708593447,
+          "runtime_ms_min": 1344.965917058289,
+          "runtime_ms_max": 1615.7506671734154,
+          "parse_validation_ms_mean": 0.0,
+          "parse_validation_ms_min": 0.0,
+          "parse_validation_ms_max": 0.0,
+          "generated_tokens_mean": 148.0,
+          "generated_tokens_min": 148,
+          "generated_tokens_max": 148,
+          "milliseconds_per_token": 9.684080208509085,
+          "tokens_per_second": 103.26225913756193,
+          "completion_reasons": {
+            "generation_error": 30
+          },
+          "generation_errors": {
+            "RuntimeError": 30
+          },
+          "generation_error_count": 30,
+          "mean_confidence_scores": {}
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 834.3437167815864,
+          "runtime_ms_min": 781.2972087413073,
+          "runtime_ms_max": 945.1781245879829,
+          "parse_validation_ms_mean": 0.02255003588895003,
+          "parse_validation_ms_min": 0.019208062440156937,
+          "parse_validation_ms_max": 0.047209206968545914,
+          "generated_tokens_mean": 148.0,
+          "generated_tokens_min": 148,
+          "generated_tokens_max": 148,
+          "milliseconds_per_token": 5.63745754582153,
+          "tokens_per_second": 177.38492784592188,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": 0.0,
+        "runtime_delta_ms": 598.9001540777583,
+        "generation_efficiency_note": "Token counts are comparable; ms/token is the primary parity metric."
+      },
+      {
+        "schema": "MetricsSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 116,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 211.46139993021885,
+          "runtime_ms_min": 195.6051248125732,
+          "runtime_ms_max": 262.19708286225796,
+          "parse_validation_ms_mean": 0.004455602417389552,
+          "parse_validation_ms_min": 0.0031669624149799347,
+          "parse_validation_ms_max": 0.013125129044055939,
+          "generated_tokens_mean": 36.7,
+          "generated_tokens_min": 36,
+          "generated_tokens_max": 37,
+          "milliseconds_per_token": 5.761891006272992,
+          "tokens_per_second": 173.55413334117154,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "accuracy": 0.08563853491730844,
+            "precision": 0.5445193580328918,
+            "recall": 0.7660484713694973,
+            "f1": 0.22326426018327078
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 652.987122333919,
+          "runtime_ms_min": 612.0199169963598,
+          "runtime_ms_max": 773.9536250010133,
+          "parse_validation_ms_mean": 0.024057117601235706,
+          "parse_validation_ms_min": 0.018500257283449173,
+          "parse_validation_ms_max": 0.07137516513466835,
+          "generated_tokens_mean": 116.0,
+          "generated_tokens_min": 116,
+          "generated_tokens_max": 116,
+          "milliseconds_per_token": 5.62919933046482,
+          "tokens_per_second": 177.6451572052303,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -79.3,
+        "runtime_delta_ms": -441.52572240370023,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "RepositorySchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 0.43333333333333335,
+          "runtime_ms_mean": 739.4801860675216,
+          "runtime_ms_min": 333.13050027936697,
+          "runtime_ms_max": 1340.5502918176353,
+          "parse_validation_ms_mean": 0.0027542312939961753,
+          "parse_validation_ms_min": 0.0,
+          "parse_validation_ms_max": 0.01520942896604538,
+          "generated_tokens_mean": 78.3,
+          "generated_tokens_min": 54,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 9.444191392944083,
+          "tokens_per_second": 105.88518999595001,
+          "completion_reasons": {
+            "generation_error": 17,
+            "schema_complete": 13
+          },
+          "generation_errors": {
+            "RuntimeError": 17
+          },
+          "generation_error_count": 17,
+          "mean_confidence_scores": {
+            "name": 0.5761111573459275,
+            "stars": 0.11000214557757239,
+            "language": 0.4277821567856058,
+            "license": 0.7955399679648855,
+            "is_public": 0.07894347624448803
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 614.2514067857215,
+          "runtime_ms_min": 506.6829170100391,
+          "runtime_ms_max": 762.2269173152745,
+          "parse_validation_ms_mean": 0.027988804504275322,
+          "parse_validation_ms_min": 0.01808302477002144,
+          "parse_validation_ms_max": 0.06912508979439735,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 6.398452154017932,
+          "tokens_per_second": 156.28779835011287,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -17.700000000000003,
+        "runtime_delta_ms": 125.22877928180003,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "InvoiceSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 124,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 246.22783608113727,
+          "runtime_ms_min": 213.57854222878814,
+          "runtime_ms_max": 372.9213746264577,
+          "parse_validation_ms_mean": 0.005534725884596507,
+          "parse_validation_ms_min": 0.004415865987539291,
+          "parse_validation_ms_max": 0.009207986295223236,
+          "generated_tokens_mean": 37.0,
+          "generated_tokens_min": 37,
+          "generated_tokens_max": 37,
+          "milliseconds_per_token": 6.654806380571277,
+          "tokens_per_second": 150.2673320323041,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "invoice_id": 0.2913739497124063,
+            "amount": 0.17096064209379253,
+            "currency": 0.26209747538567274,
+            "paid": 0.0971110504220047,
+            "items_count": 0.1230136064604273
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 756.744127565374,
+          "runtime_ms_min": 654.1459998115897,
+          "runtime_ms_max": 938.9522075653076,
+          "parse_validation_ms_mean": 0.024312470729152363,
+          "parse_validation_ms_min": 0.01912517473101616,
+          "parse_validation_ms_max": 0.062167178839445114,
+          "generated_tokens_mean": 124.0,
+          "generated_tokens_min": 124,
+          "generated_tokens_max": 124,
+          "milliseconds_per_token": 6.102775222301403,
+          "tokens_per_second": 163.85987744488685,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -87.0,
+        "runtime_delta_ms": -510.5162914842367,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "ResearchPaperSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 164,
+        "constrained": {
+          "first_pass_valid_rate": 0.7333333333333333,
+          "runtime_ms_mean": 682.3401373966286,
+          "runtime_ms_min": 234.94500014930964,
+          "runtime_ms_max": 1619.9537920765579,
+          "parse_validation_ms_mean": 0.004718126729130745,
+          "parse_validation_ms_min": 0.0,
+          "parse_validation_ms_max": 0.016792211681604385,
+          "generated_tokens_mean": 82.73333333333333,
+          "generated_tokens_min": 38,
+          "generated_tokens_max": 164,
+          "milliseconds_per_token": 8.247463385132498,
+          "tokens_per_second": 121.24940157996649,
+          "completion_reasons": {
+            "schema_complete": 22,
+            "generation_error": 8
+          },
+          "generation_errors": {
+            "RuntimeError": 8
+          },
+          "generation_error_count": 8,
+          "mean_confidence_scores": {
+            "title": 0.40292305059080474,
+            "authors": 0.48179702091687754,
+            "year": 0.10409955482761507,
+            "venue": 0.4171344372531297,
+            "citation_count": 0.25340842807311875,
+            "open_access": 0.07988267024683254
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 891.6514111682773,
+          "runtime_ms_min": 866.213624831289,
+          "runtime_ms_max": 982.063707895577,
+          "parse_validation_ms_mean": 0.02064579166471958,
+          "parse_validation_ms_min": 0.018666964024305344,
+          "parse_validation_ms_max": 0.02474989742040634,
+          "generated_tokens_mean": 164.0,
+          "generated_tokens_min": 164,
+          "generated_tokens_max": 164,
+          "milliseconds_per_token": 5.436898848587057,
+          "tokens_per_second": 183.92838047003218,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -81.26666666666667,
+        "runtime_delta_ms": -209.31127377164864,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "JobPostingSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 188,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 600.7416834123433,
+          "runtime_ms_min": 563.8270420022309,
+          "runtime_ms_max": 726.8806667998433,
+          "parse_validation_ms_mean": 0.006247187654177348,
+          "parse_validation_ms_min": 0.004415865987539291,
+          "parse_validation_ms_max": 0.015374738723039627,
+          "generated_tokens_mean": 92.03333333333333,
+          "generated_tokens_min": 90,
+          "generated_tokens_max": 93,
+          "milliseconds_per_token": 6.527435893650959,
+          "tokens_per_second": 153.19951299294564,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "title": 0.5331227627012028,
+            "company": 0.39833362960891405,
+            "location": 0.6143249103105488,
+            "salary_min": 0.205749904600023,
+            "salary_max": 0.7455683055644821,
+            "remote": 0.13165565220626582,
+            "experience_years": 0.23212185920985842
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 1055.2874138113111,
+          "runtime_ms_min": 995.6777920015156,
+          "runtime_ms_max": 1201.4533327892423,
+          "parse_validation_ms_mean": 0.022134681542714436,
+          "parse_validation_ms_min": 0.019290950149297714,
+          "parse_validation_ms_max": 0.04629092290997505,
+          "generated_tokens_mean": 188.0,
+          "generated_tokens_min": 188,
+          "generated_tokens_max": 188,
+          "milliseconds_per_token": 5.613230924528251,
+          "tokens_per_second": 178.1505185596907,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -95.96666666666667,
+        "runtime_delta_ms": -454.54573039896786,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "MedicalRecordSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 136,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 347.2157862192641,
+          "runtime_ms_min": 295.59566592797637,
+          "runtime_ms_max": 425.0499168410897,
+          "parse_validation_ms_mean": 0.006474927067756653,
+          "parse_validation_ms_min": 0.003958120942115784,
+          "parse_validation_ms_max": 0.012416858226060867,
+          "generated_tokens_mean": 51.0,
+          "generated_tokens_min": 44,
+          "generated_tokens_max": 58,
+          "milliseconds_per_token": 6.8081526709659625,
+          "tokens_per_second": 146.8827225723945,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "patient_id": 0.12968110783912823,
+            "age": 0.11767197308059918,
+            "diagnosis": 0.29858440655997487,
+            "severity": 0.4103553987936213,
+            "follow_up_required": 0.05637754446341613
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 907.0287375245243,
+          "runtime_ms_min": 722.2352083772421,
+          "runtime_ms_max": 1285.8963343314826,
+          "parse_validation_ms_mean": 0.034841662272810936,
+          "parse_validation_ms_min": 0.01950003206729889,
+          "parse_validation_ms_max": 0.16141682863235474,
+          "generated_tokens_mean": 136.0,
+          "generated_tokens_min": 136,
+          "generated_tokens_max": 136,
+          "milliseconds_per_token": 6.669328952386208,
+          "tokens_per_second": 149.9401224829691,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -85.0,
+        "runtime_delta_ms": -559.8129513052602,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      }
+    ],
+    "gpt2-medium": [
+      {
+        "schema": "PersonSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 691.4938458396742,
+          "runtime_ms_min": 566.8932078406215,
+          "runtime_ms_max": 1243.3692091144621,
+          "parse_validation_ms_mean": 0.007137516513466835,
+          "parse_validation_ms_min": 0.00400003045797348,
+          "parse_validation_ms_max": 0.02474989742040634,
+          "generated_tokens_mean": 23.933333333333334,
+          "generated_tokens_min": 23,
+          "generated_tokens_max": 24,
+          "milliseconds_per_token": 28.892500522549064,
+          "tokens_per_second": 34.61105760713072,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.516641154247113,
+            "age": 0.36619125771132965,
+            "email": 0.6755834902694096
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 2442.8808390783765,
+          "runtime_ms_min": 2158.767499960959,
+          "runtime_ms_max": 3702.7270840480924,
+          "parse_validation_ms_mean": 0.20004458104570708,
+          "parse_validation_ms_min": 0.0227498821914196,
+          "parse_validation_ms_max": 4.558166954666376,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 25.446675407066422,
+          "tokens_per_second": 39.297864416595054,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -72.06666666666666,
+        "runtime_delta_ms": -1751.3869932387024,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "ProductSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 610.0844139388452,
+          "runtime_ms_min": 533.3002922125161,
+          "runtime_ms_max": 785.5736659839749,
+          "parse_validation_ms_mean": 0.00615827739238739,
+          "parse_validation_ms_min": 0.004332978278398514,
+          "parse_validation_ms_max": 0.025082845240831375,
+          "generated_tokens_mean": 21.933333333333334,
+          "generated_tokens_min": 21,
+          "generated_tokens_max": 23,
+          "milliseconds_per_token": 27.81539881180145,
+          "tokens_per_second": 35.951309084798105,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.5611485477801632,
+            "price": 0.2914990577436611,
+            "in_stock": 0.2592919338428787
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 2422.422391688451,
+          "runtime_ms_min": 2281.8746673874557,
+          "runtime_ms_max": 2812.123333103955,
+          "parse_validation_ms_mean": 0.07238894080122311,
+          "parse_validation_ms_min": 0.02845795825123787,
+          "parse_validation_ms_max": 0.9126672521233559,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 25.233566580088034,
+          "tokens_per_second": 39.629752568909794,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -74.06666666666666,
+        "runtime_delta_ms": -1812.3379777496061,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "LocationSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 619.3217555060983,
+          "runtime_ms_min": 569.0014171414077,
+          "runtime_ms_max": 763.7532497756183,
+          "parse_validation_ms_mean": 0.012572140743335089,
+          "parse_validation_ms_min": 0.003832858055830002,
+          "parse_validation_ms_max": 0.22112485021352768,
+          "generated_tokens_mean": 22.066666666666666,
+          "generated_tokens_min": 22,
+          "generated_tokens_max": 23,
+          "milliseconds_per_token": 28.065940581847354,
+          "tokens_per_second": 35.63037543971662,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "city": 0.5274076054786098,
+            "country": 0.7021632036076284,
+            "timezone": 0.3752926519960437
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 2504.901494535928,
+          "runtime_ms_min": 2299.4757499545813,
+          "runtime_ms_max": 3172.7094589732587,
+          "parse_validation_ms_mean": 0.3417346626520157,
+          "parse_validation_ms_min": 0.024125445634126663,
+          "parse_validation_ms_max": 4.1507091373205185,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 26.09272390141592,
+          "tokens_per_second": 38.32486036253713,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -73.93333333333334,
+        "runtime_delta_ms": -1885.5797390298299,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "CompanySchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 132,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 1346.428594412282,
+          "runtime_ms_min": 1209.380874875933,
+          "runtime_ms_max": 2193.6660832725465,
+          "parse_validation_ms_mean": 0.08603750417629878,
+          "parse_validation_ms_min": 0.005207955837249756,
+          "parse_validation_ms_max": 2.065374981611967,
+          "generated_tokens_mean": 48.53333333333333,
+          "generated_tokens_min": 48,
+          "generated_tokens_max": 49,
+          "milliseconds_per_token": 27.74234741234098,
+          "tokens_per_second": 36.04597639618475,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.5734900208652107,
+            "founded": 0.15988606087484816,
+            "address": 0.08245220877155662,
+            "address.street": 0.3030391469340543,
+            "address.city": 0.7326191984093996,
+            "address.country": 0.5169958272452082,
+            "employee_count": 0.09400330736120815
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 3558.1890263749906,
+          "runtime_ms_min": 3281.376500148326,
+          "runtime_ms_max": 4572.083958890289,
+          "parse_validation_ms_mean": 0.23030143541594347,
+          "parse_validation_ms_min": 0.023458153009414673,
+          "parse_validation_ms_max": 2.1211658604443073,
+          "generated_tokens_mean": 132.0,
+          "generated_tokens_min": 132,
+          "generated_tokens_max": 132,
+          "milliseconds_per_token": 26.955977472537807,
+          "tokens_per_second": 37.097523212385056,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -83.46666666666667,
+        "runtime_delta_ms": -2211.7604319627085,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "EventSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 128,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 1343.7600568712999,
+          "runtime_ms_min": 1132.683833129704,
+          "runtime_ms_max": 2205.703957937658,
+          "parse_validation_ms_mean": 0.026663873965541523,
+          "parse_validation_ms_min": 0.005166046321392059,
+          "parse_validation_ms_max": 0.20458316430449486,
+          "generated_tokens_mean": 46.6,
+          "generated_tokens_min": 44,
+          "generated_tokens_max": 47,
+          "milliseconds_per_token": 28.836052722560083,
+          "tokens_per_second": 34.67881022486976,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "title": 0.3092802682560535,
+            "date": 0.4497128572877124,
+            "venue": 0.13835883326508516,
+            "venue.name": 0.4482717903685501,
+            "venue.city": 0.3623161411420204,
+            "capacity": 0.17138200529787095
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 3386.6960014682263,
+          "runtime_ms_min": 3098.3767500147223,
+          "runtime_ms_max": 3991.941792424768,
+          "parse_validation_ms_mean": 0.09334439722200234,
+          "parse_validation_ms_min": 0.02266606315970421,
+          "parse_validation_ms_max": 0.4903753288090229,
+          "generated_tokens_mean": 128.0,
+          "generated_tokens_min": 128,
+          "generated_tokens_max": 128,
+          "milliseconds_per_token": 26.458562511470518,
+          "tokens_per_second": 37.79494821634668,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -81.4,
+        "runtime_delta_ms": -2042.9359445969264,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "ArticleSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 148,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 1569.002058217302,
+          "runtime_ms_min": 1276.9496669061482,
+          "runtime_ms_max": 2006.67954236269,
+          "parse_validation_ms_mean": 0.010508407528201738,
+          "parse_validation_ms_min": 0.005166977643966675,
+          "parse_validation_ms_max": 0.04220893606543541,
+          "generated_tokens_mean": 55.56666666666667,
+          "generated_tokens_min": 50,
+          "generated_tokens_max": 64,
+          "milliseconds_per_token": 28.23638976995744,
+          "tokens_per_second": 35.41529239917087,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "title": 0.3488944212240275,
+            "author": 0.021829974756881254,
+            "author.name": 0.6106110947027495,
+            "author.affiliation": 0.3543057532167123,
+            "published": 0.42380623589295807,
+            "word_count": 0.1861218830961216
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 3859.1584499304495,
+          "runtime_ms_min": 3648.501249961555,
+          "runtime_ms_max": 4814.133958891034,
+          "parse_validation_ms_mean": 0.06074306244651476,
+          "parse_validation_ms_min": 0.023458153009414673,
+          "parse_validation_ms_max": 0.2448749728500843,
+          "generated_tokens_mean": 148.0,
+          "generated_tokens_min": 148,
+          "generated_tokens_max": 148,
+          "milliseconds_per_token": 26.075394931962496,
+          "tokens_per_second": 38.350329980016056,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -92.43333333333334,
+        "runtime_delta_ms": -2290.1563917131475,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "MetricsSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 116,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 997.3091304923097,
+          "runtime_ms_min": 897.7812919765711,
+          "runtime_ms_max": 1882.157958112657,
+          "parse_validation_ms_mean": 0.0060208917905886965,
+          "parse_validation_ms_min": 0.003917142748832703,
+          "parse_validation_ms_max": 0.021749641746282578,
+          "generated_tokens_mean": 37.06666666666667,
+          "generated_tokens_min": 37,
+          "generated_tokens_max": 38,
+          "milliseconds_per_token": 26.90582186579972,
+          "tokens_per_second": 37.16667734543768,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "accuracy": 0.36838398414887724,
+            "precision": 0.5816265868402559,
+            "recall": 0.6043886213597436,
+            "f1": 0.380020027610291
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 2961.8065027830503,
+          "runtime_ms_min": 2795.984999742359,
+          "runtime_ms_max": 3479.737542103976,
+          "parse_validation_ms_mean": 0.20670417385796705,
+          "parse_validation_ms_min": 0.023875385522842407,
+          "parse_validation_ms_max": 4.096332937479019,
+          "generated_tokens_mean": 116.0,
+          "generated_tokens_min": 116,
+          "generated_tokens_max": 116,
+          "milliseconds_per_token": 25.532814679164225,
+          "tokens_per_second": 39.16528641928534,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -78.93333333333334,
+        "runtime_delta_ms": -1964.4973722907407,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "RepositorySchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 96,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 1162.5761235443254,
+          "runtime_ms_min": 1050.5169578827918,
+          "runtime_ms_max": 1876.6273749060929,
+          "parse_validation_ms_mean": 0.07394591035942237,
+          "parse_validation_ms_min": 0.0044996850192546844,
+          "parse_validation_ms_max": 1.6039577312767506,
+          "generated_tokens_mean": 42.0,
+          "generated_tokens_min": 42,
+          "generated_tokens_max": 42,
+          "milliseconds_per_token": 27.68038389391251,
+          "tokens_per_second": 36.12666658932866,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "name": 0.5303687640866955,
+            "stars": 0.1893538615134674,
+            "language": 0.16536361309967396,
+            "license": 0.4432268829060659,
+            "is_public": 0.1970890421999559
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 2480.831212426225,
+          "runtime_ms_min": 2296.2951250374317,
+          "runtime_ms_max": 2825.2832079306245,
+          "parse_validation_ms_mean": 0.12244867781798045,
+          "parse_validation_ms_min": 0.02200016751885414,
+          "parse_validation_ms_max": 1.4052498154342175,
+          "generated_tokens_mean": 96.0,
+          "generated_tokens_min": 96,
+          "generated_tokens_max": 96,
+          "milliseconds_per_token": 25.841991796106512,
+          "tokens_per_second": 38.69670758701599,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -54.0,
+        "runtime_delta_ms": -1318.2550888818998,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "InvoiceSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 124,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 859.9436555212984,
+          "runtime_ms_min": 690.7140407711267,
+          "runtime_ms_max": 1091.9024171307683,
+          "parse_validation_ms_mean": 0.007177811736861865,
+          "parse_validation_ms_min": 0.00458303838968277,
+          "parse_validation_ms_max": 0.019082799553871155,
+          "generated_tokens_mean": 33.2,
+          "generated_tokens_min": 27,
+          "generated_tokens_max": 35,
+          "milliseconds_per_token": 25.901917334978865,
+          "tokens_per_second": 38.60718058309779,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "invoice_id": 0.2651535498448628,
+            "amount": 0.21446630379695852,
+            "currency": 0.7091711675523209,
+            "paid": 0.3712960128140508,
+            "items_count": 0.14246321568843803
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 3231.991450007384,
+          "runtime_ms_min": 2756.277374923229,
+          "runtime_ms_max": 4439.833416137844,
+          "parse_validation_ms_mean": 0.10034176521003246,
+          "parse_validation_ms_min": 0.023165717720985413,
+          "parse_validation_ms_max": 1.342708244919777,
+          "generated_tokens_mean": 124.0,
+          "generated_tokens_min": 124,
+          "generated_tokens_max": 124,
+          "milliseconds_per_token": 26.064447177478904,
+          "tokens_per_second": 38.36643812894886,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -90.8,
+        "runtime_delta_ms": -2372.047794486086,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "ResearchPaperSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 164,
+        "constrained": {
+          "first_pass_valid_rate": 0.9333333333333333,
+          "runtime_ms_mean": 1729.784634616226,
+          "runtime_ms_min": 1348.936874885112,
+          "runtime_ms_max": 5060.542999766767,
+          "parse_validation_ms_mean": 0.04099577975769838,
+          "parse_validation_ms_min": 0.0,
+          "parse_validation_ms_max": 0.4759170114994049,
+          "generated_tokens_mean": 65.46666666666667,
+          "generated_tokens_min": 57,
+          "generated_tokens_max": 164,
+          "milliseconds_per_token": 26.422372219188787,
+          "tokens_per_second": 37.84671534048587,
+          "completion_reasons": {
+            "generation_error": 2,
+            "schema_complete": 28
+          },
+          "generation_errors": {
+            "RuntimeError": 2
+          },
+          "generation_error_count": 2,
+          "mean_confidence_scores": {
+            "title": 0.25927488171840823,
+            "authors": 0.25168087423281527,
+            "year": 0.23212449164824703,
+            "venue": 0.4514396488534788,
+            "citation_count": 0.36213826436708096,
+            "open_access": 0.19202936515185534
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 4127.4666582699865,
+          "runtime_ms_min": 3675.626666750759,
+          "runtime_ms_max": 5272.053999826312,
+          "parse_validation_ms_mean": 0.10998897875348727,
+          "parse_validation_ms_min": 0.023416243493556976,
+          "parse_validation_ms_max": 0.7537920027971268,
+          "generated_tokens_mean": 164.0,
+          "generated_tokens_min": 164,
+          "generated_tokens_max": 164,
+          "milliseconds_per_token": 25.16747962359748,
+          "tokens_per_second": 39.733815819299686,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -98.53333333333333,
+        "runtime_delta_ms": -2397.6820236537606,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "JobPostingSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 188,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 1861.1201722174883,
+          "runtime_ms_min": 1664.2525419592857,
+          "runtime_ms_max": 2474.709500093013,
+          "parse_validation_ms_mean": 0.007899912695089975,
+          "parse_validation_ms_min": 0.004875008016824722,
+          "parse_validation_ms_max": 0.026416033506393433,
+          "generated_tokens_mean": 71.8,
+          "generated_tokens_min": 71,
+          "generated_tokens_max": 72,
+          "milliseconds_per_token": 25.92089376347477,
+          "tokens_per_second": 38.578916650208406,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "title": 0.40933121304217374,
+            "company": 0.21799466505111112,
+            "location": 0.49578516287131574,
+            "salary_min": 0.3360189746383762,
+            "salary_max": 0.2613790427560927,
+            "remote": 0.14251618861792484,
+            "experience_years": 0.03921288121447964
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 4705.327520892024,
+          "runtime_ms_min": 4223.863124847412,
+          "runtime_ms_max": 5605.8726673945785,
+          "parse_validation_ms_mean": 0.05540981267889341,
+          "parse_validation_ms_min": 0.022834166884422302,
+          "parse_validation_ms_max": 0.21029217168688774,
+          "generated_tokens_mean": 188.0,
+          "generated_tokens_min": 188,
+          "generated_tokens_max": 188,
+          "milliseconds_per_token": 25.028337877085235,
+          "tokens_per_second": 39.95471073273119,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -116.2,
+        "runtime_delta_ms": -2844.2073486745358,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
+      },
+      {
+        "schema": "MedicalRecordSchema",
+        "samples": 10,
+        "passes": 3,
+        "measured_samples": 30,
+        "max_new_tokens": 136,
+        "constrained": {
+          "first_pass_valid_rate": 1.0,
+          "runtime_ms_mean": 1146.9100986762594,
+          "runtime_ms_min": 1026.2927496805787,
+          "runtime_ms_max": 1447.454625274986,
+          "parse_validation_ms_mean": 0.019923551008105278,
+          "parse_validation_ms_min": 0.004250090569257736,
+          "parse_validation_ms_max": 0.3624577075242996,
+          "generated_tokens_mean": 45.36666666666667,
+          "generated_tokens_min": 44,
+          "generated_tokens_max": 47,
+          "milliseconds_per_token": 25.280898574788964,
+          "tokens_per_second": 39.55555602747588,
+          "completion_reasons": {
+            "schema_complete": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0,
+          "mean_confidence_scores": {
+            "patient_id": 0.2909745006171139,
+            "age": 0.37367348034759124,
+            "diagnosis": 0.5055492456953774,
+            "severity": 0.4948901454411618,
+            "follow_up_required": 0.035118937778916184
+          }
+        },
+        "unconstrained": {
+          "first_pass_valid_rate": 0.0,
+          "runtime_ms_mean": 3331.9310611269125,
+          "runtime_ms_min": 3043.2971669360995,
+          "runtime_ms_max": 4526.324416976422,
+          "parse_validation_ms_mean": 0.07293472687403361,
+          "parse_validation_ms_min": 0.022209249436855316,
+          "parse_validation_ms_max": 0.9150002151727676,
+          "generated_tokens_mean": 136.0,
+          "generated_tokens_min": 136,
+          "generated_tokens_max": 136,
+          "milliseconds_per_token": 24.499493096521416,
+          "tokens_per_second": 40.817171035346284,
+          "completion_reasons": {
+            "token_budget_reached": 30
+          },
+          "generation_errors": {},
+          "generation_error_count": 0
+        },
+        "token_count_delta": -90.63333333333333,
+        "runtime_delta_ms": -2185.0209624506533,
+        "generation_efficiency_note": "Constrained generation emitted fewer tokens on average; runtime delta should be interpreted as a stopping-efficiency effect, not negative overhead."
       }
     ]
   }
