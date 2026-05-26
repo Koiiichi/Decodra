@@ -176,6 +176,6 @@ Experimental and under active development.
 
 ## References
 
-* [Outlines](https://github.com/outlines-dev/outlines?utm_source=chatgpt.com)
-* [Structured Generation paper](https://arxiv.org/abs/2307.09702?utm_source=chatgpt.com)
-* [HuggingFace Transformers](https://github.com/huggingface/transformers?utm_source=chatgpt.com)
+* [Outlines](https://github.com/outlines-dev/outlines)
+* [Structured Generation paper](https://arxiv.org/abs/2307.09702)
+* [HuggingFace Transformers](https://github.com/huggingface/transformers)
