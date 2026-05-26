@@ -1,0 +1,50 @@
+{
+  "quick": true,
+  "samples_per_schema": 3,
+  "models": {
+    "gpt2": [
+      {
+        "schema": "PersonSchema",
+        "samples": 3,
+        "first_pass_valid_rate_constrained": 1.0,
+        "first_pass_valid_rate_unconstrained": 0.0,
+        "mean_confidence_scores": {
+          "name": 0.05362076808646017,
+          "age": 0.045635880991578615,
+          "email": 0.37093480723191286
+        },
+        "constrained_time_ms": 189.54272226740918,
+        "unconstrained_time_ms": 171.69677807639042,
+        "overhead_pct": 10.393872494846022
+      },
+      {
+        "schema": "ProductSchema",
+        "samples": 3,
+        "first_pass_valid_rate_constrained": 1.0,
+        "first_pass_valid_rate_unconstrained": 0.0,
+        "mean_confidence_scores": {
+          "name": 0.04123389351457292,
+          "price": 0.06011100421747013,
+          "in_stock": 0.005588409320331723
+        },
+        "constrained_time_ms": 164.1062912531197,
+        "unconstrained_time_ms": 170.82391679286957,
+        "overhead_pct": -3.9324853719957935
+      },
+      {
+        "schema": "LocationSchema",
+        "samples": 3,
+        "first_pass_valid_rate_constrained": 1.0,
+        "first_pass_valid_rate_unconstrained": 0.0,
+        "mean_confidence_scores": {
+          "city": 0.0634960965052562,
+          "country": 0.3232010152745277,
+          "timezone": 0.21022778373450166
+        },
+        "constrained_time_ms": 185.96122227609158,
+        "unconstrained_time_ms": 192.32430526365837,
+        "overhead_pct": -3.308517339419797
+      }
+    ]
+  }
+}

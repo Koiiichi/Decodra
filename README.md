@@ -76,8 +76,8 @@ pip install -r requirements.txt
 ## Quick Example
 
 ```python
-from decodra import DecodraEngine
-from schemas import CompanySchema
+from src import DecodraEngine
+from src.schemas import CompanySchema
 
 engine = DecodraEngine(model_name="gpt2")
 
@@ -126,6 +126,11 @@ The decoding engine:
 2. applies FSM-derived token constraints,
 3. measures constraint pressure,
 4. and aggregates signals into field-level confidence scores.
+
+The preliminary implementation attempts Outlines schema-to-regex compilation
+and uses a deterministic schema-valid token FSM as a compatibility fallback
+when the installed Outlines release does not expose a stable public
+next-token masking API.
 
 ---
 
