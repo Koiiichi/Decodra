@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import math
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -22,7 +21,7 @@ _MODEL_CACHE: dict[str, tuple[Any, Any]] = {}
 class _ConstraintMetadata:
     outlines_compiled: bool
     outlines_error: str | None
-    target_text: str
+    regex: str | None
 
 
 def _logits_processor_base() -> type:
@@ -34,43 +33,62 @@ def _logits_processor_base() -> type:
         return object
 
 
-class _ExactJsonConstraint:
-    """A deterministic token-level FSM for a schema-valid canonical JSON object."""
+class _OutlinesCoreConstraint:
+    """Outlines Core token-level constraint over a JSON schema regex."""
 
-    def __init__(self, tokenizer: Any, target_text: str) -> None:
+    def __init__(self, tokenizer: Any, regex: str) -> None:
+        """Create an Outlines Core guide from a regex and tokenizer vocabulary."""
+
+        from outlines_core import Guide, Index
+
         self.tokenizer = tokenizer
-        self.target_text = target_text
-        self.target_token_ids = tokenizer.encode(target_text, add_special_tokens=False)
-        self.position = 0
+        self.index = Index(regex, self._create_vocabulary(tokenizer))
+        self.guide = Guide(self.index)
 
     def allowed_token_ids(self) -> list[int]:
-        """Return the only token valid for the current deterministic FSM state."""
+        """Return all token ids accepted from the current FSM state."""
 
         if self.complete():
             eos_id = self.tokenizer.eos_token_id
             return [int(eos_id)] if eos_id is not None else []
-        return [int(self.target_token_ids[self.position])]
+        return [int(token_id) for token_id in self.guide.get_tokens()]
 
     def advance(self, token_id: int) -> None:
-        """Move to the next FSM state after consuming ``token_id``."""
+        """Move the FSM state after consuming ``token_id``."""
 
         if self.complete():
             return
-        expected = int(self.target_token_ids[self.position])
-        if int(token_id) != expected:
-            raise ValueError(f"Invalid token {token_id}; expected {expected}")
-        self.position += 1
+        self.guide.advance(token_id=int(token_id), return_tokens=False)
 
     def complete(self) -> bool:
-        """Return whether the canonical JSON target has been fully emitted."""
+        """Return whether the regex accepted a complete JSON object."""
 
-        return self.position >= len(self.target_token_ids)
+        return bool(self.guide.is_finished())
+
+    @staticmethod
+    def _create_vocabulary(tokenizer: Any) -> Any:
+        from outlines_core import Vocabulary
+
+        def token_to_string(token: str) -> str:
+            if hasattr(tokenizer, "convert_token_to_string"):
+                return tokenizer.convert_token_to_string(token)
+            return tokenizer.convert_tokens_to_string([token])
+
+        vocabulary: dict[str, list[int]] = {}
+        for token, token_id in tokenizer.get_vocab().items():
+            token_as_string = token_to_string(token)
+            vocabulary.setdefault(token_as_string, []).append(int(token_id))
+
+        eos_token = tokenizer.eos_token
+        if eos_token is not None:
+            vocabulary.pop(token_to_string(eos_token), None)
+        return Vocabulary(int(tokenizer.eos_token_id), vocabulary)
 
 
 class RecordingConstraintLogitsProcessor(_logits_processor_base()):
     """Mask invalid tokens and record selected-token probability signals."""
 
-    def __init__(self, constraint: _ExactJsonConstraint, tracker: JSONFieldTracker) -> None:
+    def __init__(self, constraint: _OutlinesCoreConstraint, tracker: JSONFieldTracker) -> None:
         """Create a processor for a token constraint and field tracker."""
 
         super().__init__()
@@ -162,12 +180,14 @@ class DecodraEngine:
 
         import torch
 
-        target_text = self.build_canonical_json(schema)
-        metadata = self._compile_schema_constraint(schema, target_text)
-        constraint = _ExactJsonConstraint(self.tokenizer, metadata.target_text)
-        token_budget = len(constraint.target_token_ids)
-        if max_new_tokens is not None:
-            token_budget = min(token_budget, max_new_tokens)
+        metadata = self._compile_schema_constraint(schema)
+        if not metadata.regex:
+            raise RuntimeError(
+                "Outlines could not compile the schema into a runtime constraint: "
+                f"{metadata.outlines_error}"
+            )
+        constraint = _OutlinesCoreConstraint(self.tokenizer, metadata.regex)
+        token_budget = max_new_tokens or self._default_token_budget(schema)
 
         tracker = JSONFieldTracker()
         processor = RecordingConstraintLogitsProcessor(constraint, tracker)
@@ -216,6 +236,11 @@ class DecodraEngine:
                 logits = outputs.logits[:, -1, :]
 
         constrained_time_ms = (time.perf_counter() - start) * 1000.0
+        if not constraint.complete():
+            raise RuntimeError(
+                f"Constrained generation did not finish within {token_budget} tokens"
+            )
+
         generated_text = self.tokenizer.decode(
             generated_token_ids,
             skip_special_tokens=True,
@@ -235,7 +260,7 @@ class DecodraEngine:
         if measure_overhead:
             timed = self.generate_unconstrained(
                 prompt=prompt,
-                max_new_tokens=max(1, len(generated_token_ids)),
+                max_new_tokens=token_budget,
             )
             unconstrained_time_ms = timed["time_ms"]
             overhead_ms = constrained_time_ms - unconstrained_time_ms
@@ -298,39 +323,34 @@ class DecodraEngine:
         }
 
     def schema_token_budget(self, schema: type[BaseModel]) -> int:
-        """Return the token count used by Decodra's canonical schema target."""
+        """Return a practical max token budget estimated from a valid schema sample."""
 
         target_text = self.build_canonical_json(schema)
-        return len(self.tokenizer.encode(target_text, add_special_tokens=False))
+        return self._default_token_budget(schema, sample_text=target_text)
 
     def build_canonical_json(self, schema: type[BaseModel]) -> str:
-        """Build a compact schema-valid JSON object used by the preliminary FSM."""
+        """Build a compact schema-valid JSON object for budget estimation."""
 
         sample = self._sample_for_model(schema)
         validated = schema.model_validate(sample)
         return json.dumps(validated.model_dump(mode="json"), separators=(",", ":"))
 
-    def _compile_schema_constraint(
-        self, schema: type[BaseModel], target_text: str
-    ) -> _ConstraintMetadata:
+    def _compile_schema_constraint(self, schema: type[BaseModel]) -> _ConstraintMetadata:
         outlines_error: str | None = None
         outlines_compiled = False
+        regex: str | None = None
 
         try:
             json_schema = schema.model_json_schema()
-            self._compile_outlines_regex(json_schema)
+            regex = self._compile_outlines_regex(json_schema)
             outlines_compiled = True
         except Exception as exc:  # pragma: no cover - depends on installed Outlines API.
             outlines_error = f"{type(exc).__name__}: {exc}"
 
-        # Outlines has changed its low-level FSM interfaces across releases. This
-        # preliminary engine still attempts schema-to-regex compilation above, then
-        # uses a deterministic schema-valid token path as the runtime mask whenever
-        # no stable public API is available for next-token masks.
         return _ConstraintMetadata(
             outlines_compiled=outlines_compiled,
             outlines_error=outlines_error,
-            target_text=target_text,
+            regex=regex,
         )
 
     @staticmethod
@@ -344,6 +364,13 @@ class DecodraEngine:
             return build_regex_from_schema(json_schema)
         except TypeError:
             return build_regex_from_schema(json.dumps(json_schema))
+
+    def _default_token_budget(
+        self, schema: type[BaseModel], sample_text: str | None = None
+    ) -> int:
+        sample = sample_text if sample_text is not None else self.build_canonical_json(schema)
+        sample_tokens = len(self.tokenizer.encode(sample, add_special_tokens=False))
+        return max(96, min(384, sample_tokens * 4))
 
     def _encode_prompt(self, prompt: str) -> dict[str, Any]:
         encoded = self.tokenizer(prompt, return_tensors="pt")

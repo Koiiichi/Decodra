@@ -127,10 +127,9 @@ The decoding engine:
 3. measures constraint pressure,
 4. and aggregates signals into field-level confidence scores.
 
-The preliminary implementation attempts Outlines schema-to-regex compilation
-and uses a deterministic schema-valid token FSM as a compatibility fallback
-when the installed Outlines release does not expose a stable public
-next-token masking API.
+The implementation compiles each Pydantic schema into an Outlines Core regex
+index, then uses an Outlines `Guide` at generation time to compute the full set
+of valid next token IDs for each FSM state.
 
 ---
 

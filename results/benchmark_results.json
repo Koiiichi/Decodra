@@ -9,13 +9,13 @@
         "first_pass_valid_rate_constrained": 1.0,
         "first_pass_valid_rate_unconstrained": 0.0,
         "mean_confidence_scores": {
-          "name": 0.05362076808646017,
-          "age": 0.045635880991578615,
-          "email": 0.37093480723191286
+          "name": 0.5506971634630097,
+          "age": 0.32683784555139095,
+          "email": 0.5471413215831319
         },
-        "constrained_time_ms": 189.54272226740918,
-        "unconstrained_time_ms": 171.69677807639042,
-        "overhead_pct": 10.393872494846022
+        "constrained_time_ms": 465.6687914393842,
+        "unconstrained_time_ms": 1124.059916473925,
+        "overhead_pct": -58.57260056918092
       },
       {
         "schema": "ProductSchema",
@@ -23,13 +23,13 @@
         "first_pass_valid_rate_constrained": 1.0,
         "first_pass_valid_rate_unconstrained": 0.0,
         "mean_confidence_scores": {
-          "name": 0.04123389351457292,
-          "price": 0.06011100421747013,
-          "in_stock": 0.005588409320331723
+          "name": 0.48004704162075607,
+          "price": 0.2852867749313383,
+          "in_stock": 0.055118522297027205
         },
-        "constrained_time_ms": 164.1062912531197,
-        "unconstrained_time_ms": 170.82391679286957,
-        "overhead_pct": -3.9324853719957935
+        "constrained_time_ms": 234.98738867541155,
+        "unconstrained_time_ms": 1027.5181249404948,
+        "overhead_pct": -77.13058456374966
       },
       {
         "schema": "LocationSchema",
@@ -37,13 +37,13 @@
         "first_pass_valid_rate_constrained": 1.0,
         "first_pass_valid_rate_unconstrained": 0.0,
         "mean_confidence_scores": {
-          "city": 0.0634960965052562,
-          "country": 0.3232010152745277,
-          "timezone": 0.21022778373450166
+          "city": 0.47551585882519143,
+          "country": 0.6681407821288489,
+          "timezone": 0.5811834624623964
         },
-        "constrained_time_ms": 185.96122227609158,
-        "unconstrained_time_ms": 192.32430526365837,
-        "overhead_pct": -3.308517339419797
+        "constrained_time_ms": 266.5845835581422,
+        "unconstrained_time_ms": 1092.3683053503435,
+        "overhead_pct": -75.59572332404468
       }
     ]
   }

@@ -1,4 +1,4 @@
-from src.engine import DecodraEngine
+from src.engine import DecodraEngine, _OutlinesCoreConstraint
 from src.schemas import PersonSchema
 
 
@@ -23,3 +23,15 @@ def test_generate_returns_expected_shape_and_valid_output():
     PersonSchema.model_validate(result["output"])
     assert set(PersonSchema.model_fields).issubset(result["_confidence"])
     assert all(0.0 <= value <= 1.0 for value in result["_confidence"].values())
+
+
+def test_outlines_constraint_exposes_multiple_valid_next_tokens():
+    engine = DecodraEngine(model_name="gpt2")
+    metadata = engine._compile_schema_constraint(PersonSchema)
+    constraint = _OutlinesCoreConstraint(engine.tokenizer, metadata.regex)
+
+    allowed = constraint.allowed_token_ids()
+
+    assert metadata.outlines_compiled is True
+    assert metadata.outlines_error is None
+    assert len(allowed) > 1
